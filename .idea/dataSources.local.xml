@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="PY-222.3345.131">
+  <component name="dataSourceStorageLocal" created-in="PY-222.4345.23">
     <data-source name="identifier.sqlite" uuid="575bc60d-a55f-4869-989f-f306e0e65b5c">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
       <secret-storage>master_key</secret-storage>
       <auth-provider>no-auth</auth-provider>
       <schema-mapping />
     </data-source>
-    <data-source name="tv_channels" uuid="52b06b47-dc98-4416-92ef-033b30e2f7ba">
+    <data-source name="tv_channels" uuid="3ec06d7b-37d8-4922-8ca5-1b11a075d8f8">
       <database-info product="SQLite" version="3.39.2" jdbc-version="2.1" driver-name="SQLite JDBC" driver-version="3.39.2.0" dbms="SQLITE" exact-version="3.39.2" exact-driver-version="3.39">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
@@ -18,11 +18,6 @@
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
-    </data-source>
-    <data-source name="tv_channels [2]" uuid="3ec06d7b-37d8-4922-8ca5-1b11a075d8f8">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
-      <auth-provider>no-auth</auth-provider>
-      <schema-mapping />
     </data-source>
   </component>
 </project>
