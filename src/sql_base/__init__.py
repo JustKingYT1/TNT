@@ -1,1 +1,4 @@
-from .db_tv_channels import create_base, check_base
+from .db_tv_channels import BaseWorker
+from . import models
+
+base_worker = BaseWorker()
