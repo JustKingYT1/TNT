@@ -1,12 +1,5 @@
 import sqlite3
 import os
-from settings import BASE_PATH
-
-
-def connect(fun):
-    connection = sqlite3.connect(BASE_PATH)
-    cur = connection.cursor()
-    return fun
 
 
 class BaseWorker:
@@ -17,8 +10,9 @@ class BaseWorker:
     def check_base(self) -> bool:
         return os.path.exists(self.base_path)
 
-    @connect
     def create_base(self, sql_file: str) -> None:
+        connection = sqlite3.connect(self.base_path)
+        cur = connection.cursor()
         with open(sql_file, 'r') as file:
             scripts = file.read()
             try:
@@ -29,10 +23,16 @@ class BaseWorker:
             finally:
                 connection.close()
 
-    def insert_data(self, query: str, args: tuple[str]):
+    def execute(self, query: str, args: tuple[str] = (), many: bool = False):
         connection = sqlite3.connect(self.base_path, isolation_level=None)
         cur = connection.cursor()
-        res = cur.execute(query, args).fetchone()
+        res_ctx = cur.execute(query, args)
+        if not res_ctx:
+            return None
+        if many:
+            res = res_ctx.fetchall()
+        else:
+            res = res_ctx.fetchone()
         connection.commit()
         connection.close()
         return res

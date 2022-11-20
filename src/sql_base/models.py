@@ -3,15 +3,31 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Directors(BaseModel):
-    position_id: Optional[int] = 1
+class Staff(BaseModel):
+    id: Optional[int]
+    position_id: Optional[int]
     surname: str
     named: str
-    date_birth: datetime
+    date_birth: str
 
 
-class Editors(BaseModel):
-    position_id: Optional[int] = 2
-    surname: str
-    named: str
-    date_birth: datetime
+class StaffSearch(BaseModel):
+    id: Optional[int]
+    position_id: Optional[int]
+    surname: Optional[str]
+    named: Optional[str]
+    date_birth: Optional[str]
+
+
+class User(BaseModel):
+    staff_id: Optional[int]
+    login: str
+    password: str
+    post: Optional[int]
+    reg_date: Optional[datetime]
+
+
+class Subjects(BaseModel):
+    id: Optional[int]
+    name: str
+

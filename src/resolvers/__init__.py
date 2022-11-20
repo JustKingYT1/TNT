@@ -1,2 +1,2 @@
-from .directors import new_director
-from .editors import new_editor
+from .staff import new_staff, get_staff
+from .users import check_login

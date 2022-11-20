@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-
-from routers.directors import director_router
+from routers.users import user_router
+from routers.staff import staff_router
 from sql_base import base_worker
 from settings import BASE_PATH
 
@@ -13,4 +13,5 @@ if not base_worker.check_base():
 app = FastAPI()
 
 
-app.include_router(director_router, prefix='/directors')
+app.include_router(staff_router, prefix="/staff")
+app.include_router(user_router, prefix='/users')
