@@ -1,6 +1,7 @@
 import tkinter as tk
 from api.resolvers import check_login
 
+
 class LoginForm(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)

@@ -11,7 +11,6 @@ class MainWindow(tk.Tk):
         self.btn = tk.Button(text="Login", font=font,
                              command=self.open_login)
         self.btn.pack(pady=20, padx=50)
-        self.open_login()
 
     def open_login(self):
         login_form = LoginForm(self)
@@ -27,5 +26,4 @@ class MainWindow(tk.Tk):
 if __name__ == '__main__':
     root = MainWindow()
     root.title("Наша база")
-    root.geometry('800x600')
     root.mainloop()

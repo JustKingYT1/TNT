@@ -20,7 +20,7 @@ class StaffSearch(BaseModel):
 
 
 class User(BaseModel):
-    staff_id: Optional[int]
+    staff_id: int
     login: str
     password: str
     post: Optional[int]
