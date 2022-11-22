@@ -6,16 +6,16 @@ class LoginForm(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.username = tk.StringVar()
-        self.userpassword = tk.StringVar()
+        self.user_password = tk.StringVar()
         self.font = ('Arial Bold', 30)
 
         lbl_main = tk.Label(self, text="Вход в систему", font=self.font)
         lbl_login = tk.Label(self, text="Логин", font=self.font)
         lbl_pass = tk.Label(self, text='Пароль', font=self.font)
         entry_login = tk.Entry(self, font=self.font, textvariable=self.username)
-        entry_pass = tk.Entry(self, font=self.font, textvariable=self.userpassword)
+        entry_pass = tk.Entry(self, font=self.font, textvariable=self.user_password)
         btn_enter = tk.Button(self, text='Вход', font=self.font, command=self.destroy)
-        btn_close = tk.Button(self, text='Отмена', font=self.font)
+        btn_close = tk.Button(self, text='Отмена', font=self.font, command=self.destroy)
 
         lbl_main.grid(row=0, columnspan=2, column=1)
         lbl_login.grid(row=1, column=0, pady=10, ipadx=10)
@@ -30,5 +30,5 @@ class LoginForm(tk.Toplevel):
         self.grab_set()
         self.wait_window()
         post = check_login(login=self.username.get(),
-                           password=self.userpassword.get())
+                           password=self.user_password.get())
         return post

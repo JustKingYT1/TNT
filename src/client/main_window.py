@@ -20,7 +20,6 @@ class MainWindow(tk.Tk):
         else:
             tk.messagebox.showerror(title="Wrong login",
                                           message="Логин или пароль не верны")
-            self.open_login()
 
 
 if __name__ == '__main__':
