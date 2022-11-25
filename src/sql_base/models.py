@@ -12,7 +12,6 @@ class Staff(BaseModel):
 
 
 class StaffSearch(BaseModel):
-    id: Optional[int]
     position_id: Optional[int]
     surname: Optional[str]
     named: Optional[str]

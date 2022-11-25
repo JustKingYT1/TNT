@@ -5,7 +5,6 @@ def check_login(login: str, password: str):
     data = f'{{ "login": "{login}", "password": "{password}" }}'
     r = requests.get('http://127.0.0.1:8000/users/login', data=data)
     answer = r.json()
-    print(answer)
     code = answer["code"]
     message = answer["message"]
 

@@ -1,28 +1,51 @@
 import tkinter as tk
 import tkinter.messagebox
-from log_form import LoginForm
-
-font = ('Arial Bold', 30)
+from api.resolvers import check_login
+from menu import Menu
 
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.btn = tk.Button(text="Login", font=font,
-                             command=self.open_login)
-        self.btn.pack(pady=20, padx=50)
+        self.username = tk.StringVar()
+        self.user_password = tk.StringVar()
+        self.font = ('Arial Bold', 30)
 
-    def open_login(self):
-        login_form = LoginForm(self)
-        post = login_form.open()
-        if post:
-            print("Login ok")
-        else:
-            tk.messagebox.showerror(title="Wrong login",
-                                          message="Логин или пароль не верны")
+        lbl_main = tk.Label(self, text="Вход в систему", font=self.font)
+        lbl_login = tk.Label(self, text="Логин", font=self.font)
+        lbl_pass = tk.Label(self, text='Пароль', font=self.font)
+        entry_login = tk.Entry(self, font=self.font, textvariable=self.username)
+        entry_pass = tk.Entry(self, font=self.font, textvariable=self.user_password)
+        btn_enter = tk.Button(self, text='Вход', font=self.font, command=self.open_menu)
+        btn_close = tk.Button(self, text='Отмена', font=self.font, command=self.destroy)
+
+        lbl_main.grid(row=0, columnspan=2, column=1)
+        lbl_login.grid(row=1, column=0, pady=10, ipadx=10)
+        entry_login.grid(row=1, column=1, columnspan=3, padx=30, pady=10)
+        lbl_pass.grid(row=2, column=0, pady=10, ipadx=10)
+        entry_pass.grid(row=2, column=1, columnspan=3, padx=30, pady=10)
+        btn_enter.grid(row=3, column=1, pady=10)
+        btn_close.grid(row=3, column=1, pady=10)
+        btn_close.grid(row=3, column=2, pady=10)
+
+    def open(self):
+        self.grab_set()
+        self.wait_window()
+        post = check_login(login=self.username.get(),
+                           password=self.user_password.get())
+        return post
+
+    def open_menu(self):
+        if self.open():
+            menu = Menu(self)
+            self.withdraw()
 
 
 if __name__ == '__main__':
-    root = MainWindow()
-    root.title("Наша база")
-    root.mainloop()
+    main_form = MainWindow()
+    post = main_form.open()
+    if post:
+        print("Log ok")
+    else:
+        tk.messagebox.showerror(title="Wrong login",
+                                message="Логин или пароль не верны")
