@@ -1,3 +1,8 @@
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY UNIQUE,
+    login VARCHAR(50),
+    password VARCHAR(100));
+
 CREATE TABLE IF NOT EXISTS positions(
     id INTEGER PRIMARY KEY UNIQUE,
     post VARCHAR(50) UNIQUE);
@@ -5,12 +10,16 @@ CREATE TABLE IF NOT EXISTS positions(
 CREATE TABLE IF NOT EXISTS staff(
     id INTEGER PRIMARY KEY UNIQUE,
     position_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     named VARCHAR(20) NOT NULL,
     surname VARCHAR(30) NOT NULL,
-    date_birth DATE NOT NULL,
+    date_birth VARCHAR(50) NOT NULL,
     deleted VARCHAR(50),
     FOREIGN KEY(position_id)
         REFERENCES positions(id)
+        ON DELETE SET NULL ON UPDATE NO ACTION,
+    FOREIGN KEY(user_id)
+        REFERENCES users(id)
         ON DELETE SET NULL ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS tv_channels(
@@ -97,11 +106,3 @@ CREATE TABLE IF NOT EXISTS transfer_sets_of_equipment(
         REFERENCES tv_channel_broadcasts(id)
         ON DELETE SET NULL ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY UNIQUE,
-    staff_id INTEGER NOT NULL UNIQUE,
-    login VARCHAR(50),
-    password VARCHAR(100),
-    FOREIGN KEY(staff_id)
-        REFERENCES staff(id)
-        ON DELETE SET NULL ON UPDATE NO ACTION);

@@ -9,7 +9,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.username = tk.StringVar()
         self.user_password = tk.StringVar()
-        self.font = ('Arial Bold', 30)
+        self.font = ('Times New Roman', 12)
 
         lbl_main = tk.Label(self, text="Вход в систему", font=self.font)
         lbl_login = tk.Label(self, text="Логин", font=self.font)
@@ -28,24 +28,28 @@ class MainWindow(tk.Tk):
         btn_close.grid(row=3, column=1, pady=10)
         btn_close.grid(row=3, column=2, pady=10)
 
-    def open(self):
+    def checking_login(self):
         self.grab_set()
-        self.wait_window()
         post = check_login(login=self.username.get(),
                            password=self.user_password.get())
         return post
 
+    def checking_post(self) -> Menu:
+        post_id = self.checking_login()
+        match post_id:
+            case 1: return Menu(self)
+            case 2: return Menu(self)
+            case 3: return Menu(self)
+
     def open_menu(self):
-        if self.open():
-            menu = Menu(self)
+        if self.checking_login():
             self.withdraw()
+            self.checking_post()
+        else:
+            tk.messagebox.showerror(title="Wrong login",
+                                    message="Логин или пароль не верны")
 
 
 if __name__ == '__main__':
     main_form = MainWindow()
-    post = main_form.open()
-    if post:
-        print("Log ok")
-    else:
-        tk.messagebox.showerror(title="Wrong login",
-                                message="Логин или пароль не верны")
+    main_form.mainloop()

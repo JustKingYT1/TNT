@@ -12,8 +12,8 @@ def not_login():
 
 @user_router.get('/login')
 def check_login(user: User):
-    staff_id = check_login_1(user)
-    if staff_id:
-        return {"code": 200, "message": "Login correct", "staff_id": staff_id}
+    position_id = check_login_1(user)
+    if position_id:
+        return {"code": 200, "message": "Login correct", "position_id": position_id}
     else:
-        return {"code": 401, "message": "Login incorrect, try again", "staff_id": None}
+        return {"code": 401, "message": "Login incorrect, try again", "position_id": None}

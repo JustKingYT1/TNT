@@ -10,5 +10,5 @@ def check_login(login: str, password: str):
 
     if code != 200:
         print(f"Server error: {message}")
-    if answer["staff_id"] is not None:
-        return answer["staff_id"][0]
+    if answer["position_id"] is not None:
+        return answer["position_id"][0]
