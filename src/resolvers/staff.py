@@ -3,10 +3,10 @@ from sql_base import models
 
 
 def new_staff(staff: models.Staff) -> int:
-    new_id = base_worker.execute("INSERT INTO staff(position_id, named, surname, date_birth)"
-                                 "VALUES (?, ?, ?, ?)"
+    new_id = base_worker.execute("INSERT INTO staff(user_id, position_id, named, surname, date_birth)"
+                                 "VALUES (?, ?, ?, ?, ?)"
                                  "RETURNING id",
-                                 (staff.position_id, staff.named, staff.surname, staff.date_birth))
+                                 (staff.user_id, staff.position_id, staff.named, staff.surname, staff.date_birth))
     return new_id
 
 
