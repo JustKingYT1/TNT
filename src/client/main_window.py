@@ -9,7 +9,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.username = tk.StringVar()
         self.user_password = tk.StringVar()
-        self.font = ('Times New Roman', 12)
+        self.font = ('Times New Roman', 16)
 
         lbl_main = tk.Label(self, text="Вход в систему", font=self.font)
         lbl_login = tk.Label(self, text="Логин", font=self.font)
@@ -25,7 +25,6 @@ class MainWindow(tk.Tk):
         lbl_pass.grid(row=2, column=0, pady=10, ipadx=10)
         entry_pass.grid(row=2, column=1, columnspan=3, padx=30, pady=10)
         btn_enter.grid(row=3, column=1, pady=10)
-        btn_close.grid(row=3, column=1, pady=10)
         btn_close.grid(row=3, column=2, pady=10)
 
     def checking_login(self):
