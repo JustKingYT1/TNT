@@ -21,8 +21,5 @@ class StaffSearch(BaseModel):
 
 
 class User(BaseModel):
-    position_id: Optional[int]
     login: str
     password: str
-    reg_date: Optional[str]
-

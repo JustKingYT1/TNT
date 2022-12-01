@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox
 from api.resolvers import check_login
-from menu import Menu
+from staff import Menu
 
 
 class MainWindow(tk.Tk):
