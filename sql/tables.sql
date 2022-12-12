@@ -8,13 +8,13 @@ CREATE TABLE IF NOT EXISTS positions(
     post VARCHAR(50) UNIQUE);
 
 CREATE TABLE IF NOT EXISTS staff(
-    id INTEGER PRIMARY KEY UNIQUE,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     position_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL UNIQUE,
+    user_id INTEGER NOT NULL ,
     named VARCHAR(20) NOT NULL,
     surname VARCHAR(30) NOT NULL,
     date_birth VARCHAR(50) NOT NULL,
-    deleted VARCHAR(50),
+    deleted VARCHAR(50) NOT NULL,
     FOREIGN KEY(position_id)
         REFERENCES positions(id)
         ON DELETE SET NULL ON UPDATE NO ACTION,

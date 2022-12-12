@@ -1,7 +1,14 @@
 import tkinter as tk
 import tkinter.messagebox
+from enum import Enum
+
 from api.resolvers import check_login
 from staff import Menu
+
+
+class Posts(Enum):
+    ADMIN = 1
+    DIRECTOR = 2
 
 
 class MainWindow(tk.Tk):
@@ -39,6 +46,7 @@ class MainWindow(tk.Tk):
             case 1: return Menu(self)
             case 2: return Menu(self)
             case 3: return Menu(self)
+            case _: return None
 
     def open_menu(self):
         if self.checking_login():

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from sql_base.models import User
-from resolvers import check_login_1
+from server.resolvers import check_login_1
 
 user_router = APIRouter()
 
