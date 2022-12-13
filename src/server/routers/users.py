@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from pydantic.error_wrappers import ValidationError
 from server.sql_base.models import User
 from server.resolvers.users import check_login_1, create_user
 
@@ -20,5 +21,10 @@ def check_login(user: User) -> dict:
 
 
 @user_router.post('/user/{staff_id}', response_model=int | dict)
-def new_user(user: User, staff_id):
-    return create_user(user, staff_id)
+def new_user(user: User, staff_id) -> int | dict:
+    try:
+        return create_user(user, staff_id)
+    except KeyError:
+        return {"code": 401, "msg": "User account is already registered"}
+    except ValidationError as ex:
+        return {"error": ex}

@@ -33,8 +33,6 @@ class BaseWorker:
                 res = res_ctx.fetchone()
         except sqlite3.Error as ex:
             return {'error': ex}
-        finally:
-            connect.close()
         connect.commit()
         connect.close()
         return res
