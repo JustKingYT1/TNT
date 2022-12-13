@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from settings import DB_PATH
 
 
 class BaseWorker:
@@ -8,7 +9,7 @@ class BaseWorker:
         self.base_path = base_path
 
     def db_connect(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
-        connection = sqlite3.connect(self.base_path, timeout=7)
+        connection = sqlite3.connect(self.base_path, timeout=5)
         cursor = connection.cursor()
         return connection, cursor
 
@@ -31,8 +32,12 @@ class BaseWorker:
             else:
                 res = res_ctx.fetchone()
         except sqlite3.Error as ex:
-            connect.close()
             return {'error': ex}
+        finally:
+            connect.close()
         connect.commit()
         connect.close()
         return res
+
+
+base_worker = BaseWorker(base_path=DB_PATH)

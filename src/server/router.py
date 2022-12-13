@@ -1,3 +1,3 @@
-from .routers import user_router, staff_router
+from server.routers import staff, users
 
-routs = (user_router, staff_router)
+routs = (users.user_router, staff.staff_router)

@@ -1,5 +1,7 @@
-from typing import Optional
+from typing import Optional, NewType
 from pydantic import BaseModel
+
+null = NewType("null", None)
 
 
 class BaseModelModify(BaseModel):
@@ -7,7 +9,7 @@ class BaseModelModify(BaseModel):
 
 
 class Staff(BaseModelModify):
-    user_id: Optional[int]
+    user_id: null
     position_id: int
     surname: str
     named: str
@@ -27,3 +29,8 @@ class StaffSearch(BaseModelModify):
 class User(BaseModelModify):
     login: str
     password: str
+
+
+class UserSearch(BaseModelModify):
+    login: Optional[str]
+    password: Optional[str]

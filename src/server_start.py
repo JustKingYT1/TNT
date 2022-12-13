@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from sql_base import base_worker
-from server import routs
+from server.sql_base.db_tv_channels import base_worker
+from server.router import routs
 from fastapi.responses import RedirectResponse
 import uvicorn
 

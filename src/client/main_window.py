@@ -3,12 +3,13 @@ import tkinter.messagebox
 from enum import Enum
 
 from api.resolvers import check_login
-from staff import Menu
+from staff.menu import Menu
 
 
 class Posts(Enum):
     ADMIN = 1
     DIRECTOR = 2
+
 
 
 class MainWindow(tk.Tk):

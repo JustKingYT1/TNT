@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS positions(
 CREATE TABLE IF NOT EXISTS staff(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     position_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL ,
+    user_id INTEGER UNIQUE,
     named VARCHAR(20) NOT NULL,
     surname VARCHAR(30) NOT NULL,
     date_birth VARCHAR(50) NOT NULL,
-    deleted VARCHAR(50) NOT NULL,
+    deleted VARCHAR(5) NOT NULL,
     FOREIGN KEY(position_id)
         REFERENCES positions(id)
         ON DELETE SET NULL ON UPDATE NO ACTION,

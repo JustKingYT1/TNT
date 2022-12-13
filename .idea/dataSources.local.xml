@@ -14,19 +14,7 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
-    <data-source name="tv_channels" uuid="503f279b-7377-4edf-a6b0-fbd2c6da4973">
-      <database-info product="SQLite" version="3.39.2" jdbc-version="2.1" driver-name="SQLite JDBC" driver-version="3.39.2.0" dbms="SQLITE" exact-version="3.39.2" exact-driver-version="3.39">
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
-      <auth-provider>no-auth</auth-provider>
-      <schema-mapping>
-        <introspection-scope>
-          <node kind="schema" qname="@" />
-        </introspection-scope>
-      </schema-mapping>
-    </data-source>
-    <data-source name="medic" uuid="c2489ab2-e2b0-44ba-bc9d-e00034e182c8">
+    <data-source name="tv_channels [2]" uuid="756a6148-08ac-4d94-b209-71effbe3ee3b">
       <database-info product="SQLite" version="3.39.2" jdbc-version="2.1" driver-name="SQLite JDBC" driver-version="3.39.2.0" dbms="SQLITE" exact-version="3.39.2" exact-driver-version="3.39">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

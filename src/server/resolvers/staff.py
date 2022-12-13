@@ -1,8 +1,8 @@
-from sql_base import base_worker
-from sql_base import models
+from server.sql_base.db_tv_channels import base_worker
+from server.sql_base.models import Staff, StaffSearch
 
 
-def new_staff(staff: models.Staff) -> int | dict:
+def new_staff(staff: Staff) -> int | dict:
     res = base_worker.execute(query="INSERT INTO staff(position_id, user_id, named, surname, date_birth, deleted)"
                               "VALUES (?, ?, ?, ?, ?, ?)"
                               "RETURNING id",
@@ -13,7 +13,7 @@ def new_staff(staff: models.Staff) -> int | dict:
     return res
 
 
-def get_staff(staff: models.StaffSearch) -> list[models.Staff] | dict:
+def get_staff(staff: StaffSearch) -> list[Staff] | dict:
     first_row = True
     query = "SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff "
     for key, value in staff.__dict__.items():
@@ -31,18 +31,19 @@ def get_staff(staff: models.StaffSearch) -> list[models.Staff] | dict:
 
     if staff_list:
         for user in staff_list:
-            res.append(models.Staff(
+            res.append(Staff(
                 id=user[0],
                 position_id=user[1],
                 user_id=user[2],
                 named=user[3],
                 surname=user[4],
-                date_birth=user[5]
+                date_birth=user[5],
+                deleted=user[6]
             ))
     return res
 
 
-def upd_staff(staff_id: int, new_data: models.Staff) -> None:
+def upd_staff(staff_id: int, new_data: Staff) -> None:
     return base_worker.execute(query='UPDATE staff '
                                      'SET (position_id, named, surname, date_birth, deleted) = (?, ?, ?, ?, ?) '
                                      'WHERE id=(?)',
