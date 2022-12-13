@@ -1,5 +1,5 @@
 from server.sql_base.db_tv_channels import base_worker
-from server.sql_base.models import Staff, StaffSearch
+from server.sql_base.models import Staff, StaffSearch, GetStaff
 
 
 def new_staff(staff: Staff) -> int | dict:
@@ -13,7 +13,46 @@ def new_staff(staff: Staff) -> int | dict:
     return res
 
 
-def get_staff(staff: StaffSearch) -> list[Staff] | dict:
+def get_staff(staff_id: int) -> Staff:
+    res = base_worker.execute(query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff WHERE id=?",
+                              args=(staff_id,),
+                              many=False)
+    return None if not res else Staff(
+        id=res[0],
+        position_id=res[1],
+        user_id=res[2],
+        named=res[3],
+        surname=res[4],
+        date_birth=res[5],
+        deleted=res[6]
+    )
+
+
+def get_all_staff() -> list[Staff] | dict:
+    staff_list = base_worker.execute(query="SELECT * FROM staff", many=True)
+    print(staff_list)
+
+    res = []
+
+    if staff_list:
+        for user in staff_list:
+            res.append(Staff(
+                id=user[0],
+                position_id=user[1],
+                user_id=user[2],
+                named=user[3],
+                surname=user[4],
+                date_birth=user[5],
+                deleted=user[6]
+
+            ))
+            for elem in user:
+                print(elem)
+
+    return res
+
+
+def get_staff_optional(staff: StaffSearch) -> list[Staff] | dict:
     first_row = True
     query = "SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff "
     for key, value in staff.__dict__.items():

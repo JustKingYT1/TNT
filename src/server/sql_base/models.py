@@ -1,4 +1,4 @@
-from typing import Optional, NewType
+from typing import Optional, NewType, Any
 from pydantic import BaseModel
 
 null = NewType("null", None)
@@ -10,6 +10,15 @@ class BaseModelModify(BaseModel):
 
 class Staff(BaseModelModify):
     user_id: null
+    position_id: int
+    surname: str
+    named: str
+    date_birth: str
+    deleted: str
+
+
+class GetStaff(BaseModelModify):
+    user_id: Any
     position_id: int
     surname: str
     named: str

@@ -12,7 +12,7 @@ def create_user(user: User, staff_id: int) -> int:
                                            VALUES (?, ?) 
                                            RETURNING id""",
                                   args=(user.login, user.password))[0], staff_id),
-        many=False)
+        many=False)[0]
 
 
 def check_login_1(user: User) -> int:
