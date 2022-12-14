@@ -1,7 +1,11 @@
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY UNIQUE,
+    staff_id INTEGER NOT NULL UNIQUE,
     login VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL);
+    password VARCHAR(100) NOT NULL,
+    FOREIGN KEY (staff_id)
+        REFERENCES staff(id)
+        ON DELETE SET NULL ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS positions(
     id INTEGER PRIMARY KEY UNIQUE,
@@ -14,7 +18,7 @@ CREATE TABLE IF NOT EXISTS staff(
     named VARCHAR(20) NOT NULL,
     surname VARCHAR(30) NOT NULL,
     date_birth VARCHAR(50) NOT NULL,
-    deleted VARCHAR(5) NOT NULL,
+    deleted BOOLEAN NOT NULL,
     FOREIGN KEY(position_id)
         REFERENCES positions(id)
         ON DELETE SET NULL ON UPDATE NO ACTION,

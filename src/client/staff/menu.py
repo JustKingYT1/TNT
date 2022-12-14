@@ -8,7 +8,7 @@ class Menu(tk.Toplevel):
         self.font = ('Times New Roman', 16)
         lbl_main = tk.Label(self, text="Добро пожаловать", font=self.font)
         btn_enter = tk.Button(self, text="Ok", font=self.font, command=self.open_add_menu) # TODO                                                                                      Сделать по центру
-        btn_close = tk.Button(self, text="Back", font=self.font, command=self.close_menu)
+        btn_close = tk.Button(self, text="Back", font=self.font, command=exit())
         lbl_main.grid(row=0, column=4, columnspan=2, padx=35, ipadx=20)
         lbl_main.place(x=10, y=10, width=100, height=20)
         btn_enter.grid(row=1, columnspan=4, column=1, padx=30, ipadx=20, pady=20)
@@ -16,8 +16,4 @@ class Menu(tk.Toplevel):
 
     def open_add_menu(self):
         return AddMenu(self)
-
-    @staticmethod
-    def close_menu():
-        return exit()
 

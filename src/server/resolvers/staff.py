@@ -1,15 +1,15 @@
 from server.sql_base.db_tv_channels import base_worker
-from server.sql_base.models import Staff, StaffSearch, GetStaff
+from server.sql_base.models import Staff, StaffSearchOptional
 
 
 def new_staff(staff: Staff) -> int | dict:
-    res = base_worker.execute(query="INSERT INTO staff(position_id, user_id, named, surname, date_birth, deleted)"
-                              "VALUES (?, ?, ?, ?, ?, ?)"
+    res = base_worker.execute(query="INSERT INTO staff(position_id, named, surname, date_birth, deleted)"
+                              "VALUES (?, ?, ?, ?, ?)"
                               "RETURNING id",
-                              args=(staff.position_id, staff.user_id, staff.named, staff.surname, staff.date_birth, staff.deleted))
+                              args=(staff.position_id, staff.named, staff.surname, staff.date_birth, staff.deleted))
     if type(res) != dict:
         return res[0]
-
+    print(res)
     return res
 
 
@@ -29,30 +29,27 @@ def get_staff(staff_id: int) -> Staff:
 
 
 def get_all_staff() -> list[Staff] | dict:
-    staff_list = base_worker.execute(query="SELECT * FROM staff", many=True)
-    print(staff_list)
+    staff_list = base_worker.execute(query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff", many=True)
 
     res = []
 
     if staff_list:
-        for user in staff_list:
+        for staff in staff_list:
             res.append(Staff(
-                id=user[0],
-                position_id=user[1],
-                user_id=user[2],
-                named=user[3],
-                surname=user[4],
-                date_birth=user[5],
-                deleted=user[6]
+                id=staff[0],
+                position_id=staff[1],
+                user_id=staff[2],
+                named=staff[3],
+                surname=staff[4],
+                date_birth=staff[5],
+                deleted=staff[6]
 
             ))
-            for elem in user:
-                print(elem)
 
     return res
 
 
-def get_staff_optional(staff: StaffSearch) -> list[Staff] | dict:
+def get_staff_optional(staff: StaffSearchOptional) -> list[Staff] | dict:
     first_row = True
     query = "SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff "
     for key, value in staff.__dict__.items():
