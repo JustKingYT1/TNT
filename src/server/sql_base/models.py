@@ -1,4 +1,4 @@
-from typing import Optional, NewType, Any
+from typing import Optional, NewType
 from pydantic import BaseModel
 
 null = NewType("null", None)

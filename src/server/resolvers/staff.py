@@ -4,19 +4,20 @@ from server.sql_base.models import Staff, StaffSearchOptional
 
 def new_staff(staff: Staff) -> int | dict:
     res = base_worker.execute(query="INSERT INTO staff(position_id, named, surname, date_birth, deleted)"
-                              "VALUES (?, ?, ?, ?, ?)"
-                              "RETURNING id",
+                                    "VALUES (?, ?, ?, ?, ?)"
+                                    "RETURNING id",
                               args=(staff.position_id, staff.named, staff.surname, staff.date_birth, staff.deleted))
     if type(res) != dict:
         return res[0]
-    print(res)
+
     return res
 
 
 def get_staff(staff_id: int) -> Staff:
-    res = base_worker.execute(query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff WHERE id=?",
-                              args=(staff_id,),
-                              many=False)
+    res = base_worker.execute(
+        query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff WHERE id=?",
+        args=(staff_id,),
+        many=False)
     return None if not res else Staff(
         id=res[0],
         position_id=res[1],
@@ -29,7 +30,8 @@ def get_staff(staff_id: int) -> Staff:
 
 
 def get_all_staff() -> list[Staff] | dict:
-    staff_list = base_worker.execute(query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff", many=True)
+    staff_list = base_worker.execute(
+        query="SELECT id, position_id, user_id, named, surname, date_birth, deleted FROM staff", many=True)
 
     res = []
 

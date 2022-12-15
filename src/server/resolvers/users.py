@@ -28,7 +28,8 @@ def del_user(user_id: int) -> None | dict:
 
 
 def upd_user(user_id: int, new_data: User) -> None | dict:
-    return base_worker.execute(query="""UPDATE users SET login=?, password=? WHERE id=?""", args=(new_data.login, new_data.password, user_id))
+    return base_worker.execute(query="""UPDATE users SET login=?, password=? WHERE id=?""",
+                               args=(new_data.login, new_data.password, user_id))
 
 
 def user_get(user_id: int) -> User | dict:
