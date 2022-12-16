@@ -1,9 +1,11 @@
 import fastapi
-from server.sql_base.models import Staff
+from server.sql_base.models import Schedules_id
 from server.resolvers.staff import new_staff, get_staff, upd_staff, del_staff, get_all_staff
 
 
-staff_router = fastapi.APIRouter(prefix='/staff', tags=['Staff'])
+staff_router = fastapi.APIRouter(prefix='/schedules', tags=['Staff'])
+
+times_router = fastapi.APIRouter(prefix='schedules/times')
 
 
 @staff_router.get("/")
@@ -21,8 +23,8 @@ def get_staff_all() -> list[Staff] | dict:
     return get_all_staff()
 
 
-@staff_router.post("/create/", response_model=None | dict)
-def create_staff(staff: Staff) -> None | dict:
+@staff_router.post("/create/", response_model=int | dict)
+def create_staff(staff: Staff) -> int | dict:
     return new_staff(staff)
 
 

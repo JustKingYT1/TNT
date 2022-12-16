@@ -14,7 +14,7 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
-    <data-source name="tv_channels [2]" uuid="756a6148-08ac-4d94-b209-71effbe3ee3b">
+    <data-source name="tv_channels" uuid="1e3b2180-2698-482c-ae4d-8039899b3c83">
       <database-info product="SQLite" version="3.39.2" jdbc-version="2.1" driver-name="SQLite JDBC" driver-version="3.39.2.0" dbms="SQLITE" exact-version="3.39.2" exact-driver-version="3.39">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

@@ -21,8 +21,8 @@ def get_staff_all() -> list[Staff] | dict:
     return get_all_staff()
 
 
-@staff_router.post("/create/", response_model=None | dict)
-def create_staff(staff: Staff) -> None | dict:
+@staff_router.post("/create/", response_model=int | dict)
+def create_staff(staff: Staff) -> int | dict:
     return new_staff(staff)
 
 

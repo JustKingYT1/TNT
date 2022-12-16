@@ -11,8 +11,9 @@ class BaseModelModify(BaseModel):
 class Staff(BaseModelModify):
     user_id: Optional[int] = null
     position_id: int
+    team_id: int
     surname: str
-    named: str
+    name: str
     date_birth: str
     deleted: bool = False
 
@@ -34,3 +35,51 @@ class User(BaseModelModify):
 class UserSearch(BaseModelModify):
     login: Optional[str]
     password: Optional[str]
+
+
+class Viewers(BaseModelModify):
+    name: str
+    user_id: Optional[int] = None
+
+
+class Channels(BaseModelModify):
+    title: str
+    abbreviated_title: str
+
+
+class Shows(BaseModelModify):
+    tv_channel_id: int
+    topic_id: int
+    team_staff_id: int
+
+
+class Schedules_id(BaseModelModify):
+    tv_channel_id: int
+    note: str
+
+
+class ScheduleOfShows(BaseModelModify):
+    schedule_id: int
+    show_id: int
+    time_id: int
+
+
+class ShowsTime(BaseModelModify):
+    time: str
+
+
+class Equipments(BaseModelModify):
+    equipment: str
+
+
+class EquipmentNameSets(BaseModelModify):
+    name: str
+
+
+class EquipmentSets(BaseModelModify):
+    equip_id: int
+    name_set_id: int
+
+
+class StaffTeams(BaseModelModify):
+    name: str
