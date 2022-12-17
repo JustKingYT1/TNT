@@ -1,7 +1,7 @@
 import fastapi
 from server.sql_base.models import Equipments, EquipmentSets, EquipmentNameSets
 from server.resolvers.equipment_sets import get_equipment_name, get_equipment, del_equipment_name, upd_equipment_name, new_equipment, get_all_equipments, get_all_equipment_names, upd_equipment, get_all_equipment_sets, del_equipment, get_equipment_set, new_name_set
-
+from typing import Any
 
 equipment_router = fastapi.APIRouter(prefix='/equipments', tags=['Equipments'])
 
@@ -45,8 +45,8 @@ def update_equipment(equipment_id: int, new_data: Equipments) -> None | dict:
     return upd_equipment(equipment_id, new_data)
 
 
-@equipment_router.delete("/delete/{equipment_id}/", response_model=None | dict)
-def delete_equipment(equipment_id) -> None | dict:
+@equipment_router.delete("/delete/{equipment_id}/", response_model=tuple[Any, Any] | dict)
+def delete_equipment(equipment_id) -> tuple[Any, Any] | dict:
     return del_equipment(equipment_id)
 
 
@@ -70,8 +70,8 @@ def update_equipment_name(equipment_name_id: int, new_data: EquipmentNameSets) -
     return upd_equipment_name(equipment_name_id, new_data)
 
 
-@equipment_names_router.delete("/delete/{equipment_name_id}/", response_model=None | dict)
-def delete_equipment_name(equipment_name_id) -> None | dict:
+@equipment_names_router.delete("/delete/{equipment_name_id}/", response_model=tuple[Any, Any, Any] | dict)
+def delete_equipment_name(equipment_name_id) -> tuple[Any, Any, Any] | dict:
     return del_equipment_name(equipment_name_id)
 
 

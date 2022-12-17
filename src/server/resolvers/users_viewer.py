@@ -2,7 +2,7 @@ from server.sql_base.models import User, UserSearch
 from server.sql_base.db_tv_channels import base_worker
 
 
-def register_viewer(user: User, viewer_id: int) -> int:
+def register_viewer(user: User, viewer_id: int) -> int | dict:
     return base_worker.execute(
         query="""UPDATE viewers
                   SET user_id=?
@@ -15,7 +15,7 @@ def register_viewer(user: User, viewer_id: int) -> int:
         many=False)[0]
 
 
-def check_login_viewer(user: User) -> int:
+def check_login_viewer(user: User) -> int | dict:
     return base_worker.execute(query="""SELECT V.id FROM viewers V
                                         INNER JOIN users_viewers U ON V.user_id = U.id
                                         WHERE U.login = ? AND U.password = ?""",

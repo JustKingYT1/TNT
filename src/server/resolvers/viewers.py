@@ -1,5 +1,6 @@
 from server.sql_base.db_tv_channels import base_worker
 from server.sql_base.models import Viewers
+from typing import Any
 
 
 def new_viewer(viewer: Viewers) -> int | dict:
@@ -13,7 +14,7 @@ def new_viewer(viewer: Viewers) -> int | dict:
     return res
 
 
-def get_viewer(viewer_id: int) -> Viewers:
+def get_viewer(viewer_id: int) -> Viewers | dict:
     viewer = base_worker.execute(
         query="SELECT id, name, user_id FROM viewers WHERE id=?",
         args=(viewer_id,),
@@ -40,13 +41,15 @@ def get_all_viewers() -> list[Viewers] | dict:
     return res
 
 
-def upd_viewer(viewer_id: int, new_data: Viewers) -> None:
+def upd_viewer(viewer_id: int, new_data: Viewers) -> None | dict:
     return base_worker.execute(query='UPDATE viewers '
                                      'SET (name) = (?) '
                                      'WHERE id=(?)',
                                args=(new_data.name, viewer_id))
 
 
-def del_viewer(viewer_id: int) -> None:
-    return base_worker.execute(query="DELETE FROM viewers WHERE id=(?)",
+def del_viewer(viewer_id: int) -> tuple[Any, Any] | dict:
+    return base_worker.execute(query="DELETE FROM users_viewers WHERE viewer_id=?",
+                               args=(viewer_id,)), \
+           base_worker.execute(query="DELETE FROM viewers WHERE id=(?)",
                                args=(viewer_id,))

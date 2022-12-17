@@ -1,7 +1,7 @@
 import fastapi
 from server.sql_base.models import ShowsTime
 from server.resolvers.times import new_time, del_time, upd_time, get_all_times, get_time
-
+from typing import Any
 
 times_router = fastapi.APIRouter(prefix='/times', tags=['Times'])
 
@@ -31,6 +31,6 @@ def update_time(time_id: int, new_data: ShowsTime) -> None | dict:
     return upd_time(time_id, new_data)
 
 
-@times_router.delete("/delete/{time_id}/", response_model=None | dict)
-def delete_time(time_id) -> None | dict:
+@times_router.delete("/delete/{time_id}/", response_model=tuple[Any, Any] | dict)
+def delete_time(time_id) -> tuple[Any, Any] | dict:
     return del_time(time_id)

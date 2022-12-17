@@ -1,7 +1,7 @@
 import fastapi
 from server.sql_base.models import Viewers
 from server.resolvers.viewers import get_viewer, get_all_viewers, del_viewer, new_viewer, upd_viewer
-
+from typing import Any
 
 viewers_router = fastapi.APIRouter(prefix='/viewers', tags=['Viewers'])
 
@@ -31,6 +31,6 @@ def update_viewer(viewer_id: int, new_data: Viewers) -> None | dict:
     return upd_viewer(viewer_id, new_data)
 
 
-@viewers_router.delete("/delete/{viewer_id}/", response_model=None | dict)
-def delete_viewer(viewer_id) -> None | dict:
+@viewers_router.delete("/delete/{viewer_id}/", response_model=tuple[Any, Any] | dict)
+def delete_viewer(viewer_id) -> tuple[Any, Any] | dict:
     return del_viewer(viewer_id)

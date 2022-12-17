@@ -1,5 +1,6 @@
 from server.sql_base.db_tv_channels import base_worker
 from server.sql_base.models import ShowsTime
+from typing import Any
 
 
 def new_time(time: ShowsTime) -> int | dict:
@@ -13,7 +14,7 @@ def new_time(time: ShowsTime) -> int | dict:
     return res
 
 
-def get_time(time_id: int) -> ShowsTime:
+def get_time(time_id: int) -> ShowsTime | dict:
     res = base_worker.execute(
         query="SELECT id, time_o_clock FROM shows_time WHERE id=?",
         args=(time_id,),
@@ -38,14 +39,15 @@ def get_all_times() -> list[ShowsTime] | dict:
     return res
 
 
-def upd_time(time_id: int, new_data: ShowsTime) -> None:
+def upd_time(time_id: int, new_data: ShowsTime) -> None | dict:
     return base_worker.execute(query='UPDATE shows_time '
                                      'SET (time_o_clock) = (?) '
                                      'WHERE id=(?)',
                                args=(new_data.time, time_id))
 
 
-def del_time(time_id: int) -> None:
-    return base_worker.execute(query="DELETE FROM shows_time WHERE id=(?); DELETE FROM schedule_of_shows WHERE time_id=?",
-                               args=(time_id, time_id),
-                               many=True)
+def del_time(time_id: int) -> tuple[Any, Any] | dict:
+    return base_worker.execute(query="DELETE FROM schedule_of_shows WHERE time_id=?",
+                               args=(time_id,)),\
+           base_worker.execute(query="DELETE FROM shows_time WHERE id=(?)",
+                               args=(time_id,),)

@@ -1,5 +1,6 @@
 from server.sql_base.db_tv_channels import base_worker
 from server.sql_base.models import Staff, StaffSearchOptional
+from typing import Any
 
 
 def new_staff(staff: Staff) -> None | dict:
@@ -15,7 +16,7 @@ def new_staff(staff: Staff) -> None | dict:
     return res
 
 
-def get_staff(staff_id: int) -> Staff:
+def get_staff(staff_id: int) -> Staff | dict:
     res = base_worker.execute(
         query="SELECT id, position_id, user_id, name, surname, date_birth, deleted FROM staff WHERE id=?",
         args=(staff_id,),
@@ -99,8 +100,11 @@ def upd_staff(staff_id: int, new_data: Staff) -> None | dict:
     return res
 
 
-def del_staff(staff_id: int) -> None | dict:
-    return base_worker.execute(query="DELETE FROM staff WHERE id=(?); "
-                                     "DELETE FROM staff_teams WHERE staff_id=?",
-                               args=(staff_id, staff_id),
-                               many=True)
+def del_staff(staff_id: int) -> tuple[Any, Any, Any] | dict:
+    res1 = base_worker.execute(query="DELETE FROM staff_teams WHERE staff_id=?",
+                               args=(staff_id,))
+    res2 = base_worker.execute(query="DELETE FROM users_staff WHERE staff_id=?",
+                               args=(staff_id,))
+    res3 = base_worker.execute(query="DELETE FROM staff WHERE id=(?); ",
+                               args=(staff_id,), )
+    return res1, res2, res3

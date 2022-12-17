@@ -1,8 +1,8 @@
-from server.sql_base.models import User, UserSearch
+from server.sql_base.models import User
 from server.sql_base.db_tv_channels import base_worker
 
 
-def register_staff(user: User, staff_id: int) -> int:
+def register_staff(user: User, staff_id: int) -> int | dict:
     return base_worker.execute(
         query="""UPDATE staff
                   SET user_id=?
@@ -15,7 +15,7 @@ def register_staff(user: User, staff_id: int) -> int:
         many=False)[0]
 
 
-def check_login_staff(user: User) -> int:
+def check_login_staff(user: User) -> int | dict:
     return base_worker.execute(query="""SELECT S.position_id FROM staff S
                                         INNER JOIN users_staff U ON S.user_id = U.id
                                         WHERE U.login = ? AND U.password = ?""",

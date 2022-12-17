@@ -1,5 +1,6 @@
 from server.sql_base.db_tv_channels import base_worker
 from server.sql_base.models import StaffTeams
+from typing import Any
 
 
 def new_staff_team(staff_team: StaffTeams) -> int | dict:
@@ -46,7 +47,8 @@ def upd_staff_team(team_id: int, new_data: StaffTeams) -> None:
                                args=(new_data.name, team_id))
 
 
-def del_staff_team(team_id: int) -> None:
-    return base_worker.execute(query="DELETE FROM team_names WHERE id=(?); DELETE FROM staff_teams WHERE id=?",
-                               args=(team_id, team_id),
-                               many=True)
+def del_staff_team(team_id: int) -> tuple[Any, Any] | dict:
+    return base_worker.execute(query='DELETE FROM staff_teams WHERE team_id=?',
+                               args=(team_id,)), \
+           base_worker.execute(query="DELETE FROM team_names WHERE id=(?)",
+                               args=(team_id,), )

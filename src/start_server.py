@@ -18,4 +18,4 @@ def index() -> RedirectResponse:
 if __name__ == '__main__':
     if not base_worker.check_base():
         base_worker.create_base('../sql/tables.sql')
-    uvicorn.run("server_start:app", reload=True, host='localhost')
+    uvicorn.run("start_server:app", reload=True, host='localhost')

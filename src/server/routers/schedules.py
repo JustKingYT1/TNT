@@ -1,38 +1,55 @@
+from typing import Any
+
 import fastapi
-from server.sql_base.models import Schedules_id, ScheduleOfShows
-from server.resolvers.schedules import new_schedule_id, del_schedule_id, get_all_schedules_id, get_schedule_id, upd_schedule_id
+
+from server.sql_base.models import SchedulesID, ScheduleOfShows
+from server.resolvers.schedules import new_schedule_id, del_schedule_id, get_all_schedules_id, get_schedule_id, upd_schedule_id, get_schedule, get_all_schedules
+
+schedules_id_router = fastapi.APIRouter(prefix='/schedules/id', tags=['SchedulesID'])
+
+schedules_router = fastapi.APIRouter(prefix='/schedules', tags=['Schedules'])
 
 
-staff_router = fastapi.APIRouter(prefix='/schedules', tags=['Staff'])
-
-times_router = fastapi.APIRouter(prefix='schedules/times')
-
-
-@staff_router.get("/")
-def start_page():
+@schedules_router.get("/")
+def start_page_1():
     return f"Hello new user!"
 
 
-@staff_router.get("/get/{staff_id}/", response_model=Staff | dict)
-def get_staff_rout(staff_id: int) -> Staff | dict:
-    return get_staff(staff_id)
+@schedules_id_router.get("/")
+def start_page_2():
+    return f"Hello new user!"
 
 
-@staff_router.get("/get/")
-def get_staff_all() -> list[Staff] | dict:
-    return get_all_staff()
+@schedules_id_router.get("/get/{schedule_id}/", response_model=SchedulesID | dict)
+def get_schedule_id_rout(schedule_id: int) -> SchedulesID | dict:
+    return get_schedule_id(schedule_id)
 
 
-@staff_router.post("/create/", response_model=int | dict)
-def create_staff(staff: Staff) -> int | dict:
-    return new_staff(staff)
+@schedules_id_router.get("/get/", response_model=list[SchedulesID] | dict)
+def get_schedules_id_all() -> list[SchedulesID] | dict:
+    return get_all_schedules_id()
 
 
-@staff_router.put("/update/{staff_id}/", response_model=None | dict)
-def update_staff(staff_id: int, new_data: Staff) -> None | dict:
-    return upd_staff(staff_id, new_data)
+@schedules_id_router.post("/create/", response_model=int | dict)
+def create_schedule(schedule: SchedulesID) -> int | dict:
+    return new_schedule_id(schedule)
 
 
-@staff_router.delete("/delete/{staff_id}/", response_model=None | dict)
-def delete_staff(staff_id) -> None | dict:
-    return del_staff(staff_id)
+@schedules_id_router.put("/update/{schedule_id}/", response_model=None | dict)
+def update_schedule(schedule_id: int, new_data: SchedulesID) -> None | dict:
+    return upd_schedule_id(schedule_id, new_data)
+
+
+@schedules_id_router.delete("/delete/{schedule_id}/", response_model=tuple[Any, Any] | dict)
+def delete_schedule(schedule_id) -> tuple[Any, Any] | dict:
+    return del_schedule_id(schedule_id)
+
+
+@schedules_router.get("/get/{schedule_id}/", response_model=ScheduleOfShows | dict)
+def get_schedule_rout(schedule_id: int) -> ScheduleOfShows | dict:
+    return get_schedule(schedule_id)
+
+
+@schedules_router.get("/get/", response_model=list[ScheduleOfShows] | dict)
+def get_schedules_all() -> list[ScheduleOfShows] | dict:
+    return get_all_schedules()

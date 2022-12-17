@@ -1,5 +1,6 @@
 from server.sql_base.db_tv_channels import base_worker
 from server.sql_base.models import Equipments, EquipmentNameSets, EquipmentSets
+from typing import Any
 
 
 def new_name_set(set_name: EquipmentNameSets) -> None | dict:
@@ -25,9 +26,9 @@ def new_equipment(equipment: Equipments) -> None | dict:
     return res
 
 
-def get_equipment(equipment_id: int) -> Equipments:
+def get_equipment(equipment_id: int) -> Equipments | dict:
     res = base_worker.execute(
-        query="SELECT id, equipment FROM equipment WHERE id=?",
+        query="SELECT id, equipment, set_equipment_id FROM equipment WHERE id=?",
         args=(equipment_id,),
         many=False)
     return None if not res else Equipments(
@@ -38,7 +39,7 @@ def get_equipment(equipment_id: int) -> Equipments:
 
 def get_all_equipments() -> list[Equipments] | dict:
     equipment_list = base_worker.execute(
-        query="SELECT id, equipment FROM equipment", many=True)
+        query="SELECT id, equipment, set_equipment_id FROM equipment", many=True)
 
     res = []
 
@@ -52,7 +53,7 @@ def get_all_equipments() -> list[Equipments] | dict:
     return res
 
 
-def upd_equipment(equipment_id: int, new_data: Equipments) -> None:
+def upd_equipment(equipment_id: int, new_data: Equipments) -> None | dict:
     equip = base_worker.execute(query='UPDATE equipment '
                                       'SET (equipment, set_equipment_id) = (?, ?) '
                                       'WHERE id=(?)'
@@ -62,13 +63,14 @@ def upd_equipment(equipment_id: int, new_data: Equipments) -> None:
                                args=(equip[0], equipment_id))
 
 
-def del_equipment(equipment_id: int) -> None:
-    return base_worker.execute(query="DELETE FROM equipment WHERE id=(?); "
-                                     "DELETE FROM equipment_sets WHERE equipment_id=?",
+def del_equipment(equipment_id: int) -> tuple[Any, Any] | dict:
+    return base_worker.execute(query="DELETE FROM equipment_sets WHERE equipment_id=?",
+                               args=(equipment_id,)), \
+           base_worker.execute(query="DELETE FROM equipment WHERE id=(?)",
                                args=(equipment_id, equipment_id))
 
 
-def get_equipment_name(equipment_name_id: int) -> EquipmentNameSets:
+def get_equipment_name(equipment_name_id: int) -> EquipmentNameSets | dict:
     res = base_worker.execute(
         query="SELECT id, name_of_equipment_set FROM names_sets_of_equipment WHERE id=?",
         args=(equipment_name_id,))
@@ -92,23 +94,21 @@ def get_all_equipment_names() -> list[EquipmentNameSets] | dict:
     return res
 
 
-def upd_equipment_name(equipment_name_id: int, new_data: EquipmentNameSets) -> None:
+def upd_equipment_name(equipment_name_id: int, new_data: EquipmentNameSets) -> None | dict:
     return base_worker.execute(query='UPDATE names_sets_of_equipment '
                                      'SET (name_of_equipment_set) = (?) '
                                      'WHERE id=(?)',
                                args=(new_data.name, equipment_name_id))
 
 
-def del_equipment_name(equipment_name_id: int) -> None:
-    res = base_worker.execute(query="DELETE FROM names_sets_of_equipment WHERE id=(?); "
-                                    "DELETE FROM equipment_sets WHERE name_equipment_set_id=?;"
-                                    "DELETE FROM equipment WHERE set_equipment_id=?",
-                              args=(equipment_name_id, equipment_name_id, equipment_name_id),
-                              many=True)
-    return res
+def del_equipment_name(equipment_name_id: int) -> tuple[Any, Any, Any] | dict:
+    res_1 = base_worker.execute(query="DELETE FROM names_sets_of_equipment WHERE id=(?)" ,args=(equipment_name_id,))
+    res_2 = base_worker.execute(query="DELETE FROM equipment_sets WHERE name_equipment_set_id=?;", args=(equipment_name_id,))
+    res_3 = base_worker.execute(query="DELETE FROM equipment WHERE set_equipment_id=?", args=(equipment_name_id,))
+    return res_1, res_2, res_3
 
 
-def get_equipment_set(equipment_set_id: int) -> EquipmentSets:
+def get_equipment_set(equipment_set_id: int) -> EquipmentSets | dict:
     res = base_worker.execute(
         query="SELECT equipment_id, name_equipment_set_id FROM equipment_sets WHERE name_equipment_set_id=?",
         args=(equipment_set_id,))

@@ -51,10 +51,10 @@ class Channels(BaseModelModify):
 class Shows(BaseModelModify):
     tv_channel_id: int
     topic_id: int
-    team_staff_id: int
+    team_staff_id: int # TODO
 
 
-class Schedules_id(BaseModelModify):
+class SchedulesID(BaseModelModify):
     tv_channel_id: int
     note: str
 

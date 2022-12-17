@@ -1,7 +1,7 @@
 import fastapi
 from server.sql_base.models import Staff
 from server.resolvers.staff import new_staff, get_staff, upd_staff, del_staff, get_all_staff
-
+from typing import Any
 
 staff_router = fastapi.APIRouter(prefix='/staff', tags=['Staff'])
 
@@ -31,6 +31,6 @@ def update_staff(staff_id: int, new_data: Staff) -> None | dict:
     return upd_staff(staff_id, new_data)
 
 
-@staff_router.delete("/delete/{staff_id}/", response_model=None | dict)
-def delete_staff(staff_id) -> None | dict:
+@staff_router.delete("/delete/{staff_id}/", response_model=tuple[Any, Any, Any] | dict)
+def delete_staff(staff_id) -> tuple[Any, Any, Any] | dict:
     return del_staff(staff_id)
