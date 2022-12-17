@@ -47,5 +47,6 @@ def upd_staff_team(team_id: int, new_data: StaffTeams) -> None:
 
 
 def del_staff_team(team_id: int) -> None:
-    return base_worker.execute(query="DELETE FROM team_names WHERE id=(?)",
-                               args=(team_id,))
+    return base_worker.execute(query="DELETE FROM team_names WHERE id=(?); DELETE FROM staff_teams WHERE id=?",
+                               args=(team_id, team_id),
+                               many=True)

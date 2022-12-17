@@ -3,7 +3,7 @@ from server.sql_base.models import Shows, ScheduleOfShows
 
 
 def new_time(show: Shows) -> int | dict:
-    res = base_worker.execute(query="INSERT INTO shows_time(time_o_clock)"
+    res = base_worker.execute(query="INSERT INTO shows_time(time_o_clock)" # TODO
                                     "VALUES (?)"
                                     "RETURNING id",
                               args=())

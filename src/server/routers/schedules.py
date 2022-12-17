@@ -1,6 +1,6 @@
 import fastapi
-from server.sql_base.models import Schedules_id
-from server.resolvers.staff import new_staff, get_staff, upd_staff, del_staff, get_all_staff
+from server.sql_base.models import Schedules_id, ScheduleOfShows
+from server.resolvers.schedules import new_schedule_id, del_schedule_id, get_all_schedules_id, get_schedule_id, upd_schedule_id
 
 
 staff_router = fastapi.APIRouter(prefix='/schedules', tags=['Staff'])

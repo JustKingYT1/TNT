@@ -1,6 +1,6 @@
 import fastapi
 from server.sql_base.models import Equipments, EquipmentSets, EquipmentNameSets
-from server.resolvers.equipment_sets import get_equipment_name, get_equipment, del_equipment_set, del_equipment_name, upd_equipment_name, new_equipment, get_all_equipments, get_all_equipment_names, upd_equipment, get_all_equipment_sets, del_equipment, get_equipment_set, new_set_of_equipment, new_name_set
+from server.resolvers.equipment_sets import get_equipment_name, get_equipment, del_equipment_name, upd_equipment_name, new_equipment, get_all_equipments, get_all_equipment_names, upd_equipment, get_all_equipment_sets, del_equipment, get_equipment_set, new_name_set
 
 
 equipment_router = fastapi.APIRouter(prefix='/equipments', tags=['Equipments'])
@@ -84,12 +84,3 @@ def get_equipment_set_rout(equipment_set_id: int) -> EquipmentSets | dict:
 def get_equipment_sets_all() -> list[EquipmentSets] | dict:
     return get_all_equipment_sets()
 
-
-@equipment_sets_router.post("/create/", response_model=int | dict)
-def create_equip_set(equipment_set: EquipmentSets) -> int | dict:
-    return new_set_of_equipment(equipment_set)
-
-
-@equipment_sets_router.delete("/delete/{equipment_set_id}/", response_model=None | dict)
-def delete_equip_set(equipment_set_id) -> None | dict:
-    return del_equipment_set(equipment_set_id)

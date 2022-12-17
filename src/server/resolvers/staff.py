@@ -9,9 +9,8 @@ def new_staff(staff: Staff) -> None | dict:
                                    args=(staff.position_id, staff.team_id, staff.name, staff.surname, staff.date_birth,
                                          staff.deleted))
 
-    res = base_worker.execute(query="UPDATE staff_teams "
-                                    "SET staff_id=?, team_id=? WHERE id=?",
-                              args=(staff_id[0], staff_id[1], staff_id[0]))
+    res = base_worker.execute(query="INSERT INTO staff_teams(staff_id, team_id) VALUES (?, ?)",
+                              args=(staff_id[0], staff_id[1]))
 
     return res
 
@@ -88,13 +87,20 @@ def get_staff_optional(staff: StaffSearchOptional) -> list[Staff] | dict:
 
 
 def upd_staff(staff_id: int, new_data: Staff) -> None | dict:
-    return base_worker.execute(query='UPDATE staff '
-                                     'SET (position_id, team_id, name, surname, date_birth, deleted) = (?, ?, ?, ?, ?, ?) '
-                                     'WHERE id=(?)',
-                               args=(new_data.position_id, new_data.team_id, new_data.name, new_data.surname,
-                                     new_data.date_birth, new_data.deleted, staff_id))
+    team_id = base_worker.execute(query='UPDATE staff '
+                                        'SET (position_id, team_id, name, surname, date_birth, deleted) = (?, ?, ?, ?, ?, ?) '
+                                        'WHERE id=(?)'
+                                        'RETURNING team_id',
+                                  args=(new_data.position_id, new_data.team_id, new_data.name, new_data.surname,
+                                        new_data.date_birth, new_data.deleted, staff_id))
+    res = base_worker.execute(query="UPDATE staff_teams SET team_id=? WHERE staff_id=?",
+                              args=(team_id[0], staff_id))
+
+    return res
 
 
 def del_staff(staff_id: int) -> None | dict:
-    return base_worker.execute(query="DELETE FROM staff WHERE id=(?)",
-                               args=(staff_id,))
+    return base_worker.execute(query="DELETE FROM staff WHERE id=(?); "
+                                     "DELETE FROM staff_teams WHERE staff_id=?",
+                               args=(staff_id, staff_id),
+                               many=True)

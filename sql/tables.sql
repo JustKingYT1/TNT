@@ -122,7 +122,11 @@ CREATE TABLE IF NOT EXISTS names_sets_of_equipment(
 
 CREATE TABLE IF NOT EXISTS equipment(
     id INTEGER PRIMARY KEY UNIQUE,
-    equipment VARCHAR(100) NOT NULL UNIQUE);
+    equipment VARCHAR(100) NOT NULL UNIQUE,
+    set_equipment_id INTEGER NOT NULL,
+    FOREIGN KEY (set_equipment_id)
+        REFERENCES names_sets_of_equipment(id)
+        ON DELETE SET NULL ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS equipment_sets(
     id INTEGER PRIMARY KEY UNIQUE,

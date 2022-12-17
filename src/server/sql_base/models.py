@@ -21,6 +21,7 @@ class Staff(BaseModelModify):
 class StaffSearchOptional(BaseModelModify):
     user_id: Optional[int]
     position_id: Optional[int]
+    team_id: Optional[int]
     surname: Optional[str]
     named: Optional[str]
     date_birth: Optional[str]
@@ -70,6 +71,7 @@ class ShowsTime(BaseModelModify):
 
 class Equipments(BaseModelModify):
     equipment: str
+    equip_set_id: int
 
 
 class EquipmentNameSets(BaseModelModify):
