@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS tv_channel_shows(
     team_staff_id INTEGER NOT NULL,
     equipment_set_id INTEGER NOT NULL,
     schedule_id INTEGER,
-    venue VARCHAR(100),
-    title VARCHAR(50) UNIQUE,
+    venue VARCHAR(100) NOT NULL,
+    title VARCHAR(50) UNIQUE NOT NULL,
     FOREIGN KEY (schedule_id)
         REFERENCES schedule_of_shows_id
         ON DELETE SET NULL ON UPDATE NO ACTION,

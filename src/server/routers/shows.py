@@ -1,36 +1,36 @@
 import fastapi
-from server.sql_base.models import Staff
-from server.resolvers.staff import new_staff, get_staff, upd_staff, del_staff, get_all_staff
+from server.sql_base.models import Shows
+from server.resolvers.shows import new_show, get_show, get_all_shows, del_show, upd_show
+from typing import Any
+
+shows_router = fastapi.APIRouter(prefix='/shows', tags=['Shows'])
 
 
-staff_router = fastapi.APIRouter(prefix='/staff', tags=['Staff'])
-
-
-@staff_router.get("/")
+@shows_router.get("/")
 def start_page():
     return f"Hello new user!"
 
 
-@staff_router.get("/get/{staff_id}/", response_model=Staff | dict)
-def get_staff_rout(staff_id: int) -> Staff | dict:
-    return get_staff(staff_id)
+@shows_router.get("/get/{show_id}/", response_model=Shows | dict)
+def get_show_rout(show_id: int) -> Shows | dict:
+    return get_show(show_id)
 
 
-@staff_router.get("/get/")
-def get_staff_all() -> list[Staff] | dict:
-    return get_all_staff()
+@shows_router.get("/get/", response_model=list[Shows] | dict)
+def get_shows_all() -> list[Shows] | dict:
+    return get_all_shows()
 
 
-@staff_router.post("/create/", response_model=int | dict)
-def create_staff(staff: Staff) -> int | dict:
-    return new_staff(staff)
+@shows_router.post("/create/", response_model=int | dict)
+def create_show(show: Shows) -> int | dict:
+    return new_show(show)
 
 
-@staff_router.put("/update/{staff_id}/", response_model=None | dict)
-def update_staff(staff_id: int, new_data: Staff) -> None | dict:
-    return upd_staff(staff_id, new_data)
+@shows_router.put("/update/{show_id}/", response_model=tuple[Any, Any] | dict)
+def update_show(show_id: int, new_data: Shows) -> tuple[Any, Any] | dict:
+    return upd_show(show_id, new_data)
 
 
-@staff_router.delete("/delete/{staff_id}/", response_model=None | dict)
-def delete_staff(staff_id) -> None | dict:
-    return del_staff(staff_id)
+@shows_router.delete("/delete/{show_id}/", response_model=tuple[Any, Any] | dict)
+def delete_show(show_id) -> tuple[Any, Any] | dict:
+    return del_show(show_id)

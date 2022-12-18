@@ -1,7 +1,5 @@
-from typing import Optional, NewType
+from typing import Optional
 from pydantic import BaseModel
-
-null = NewType("null", None)
 
 
 class BaseModelModify(BaseModel):
@@ -9,7 +7,7 @@ class BaseModelModify(BaseModel):
 
 
 class Staff(BaseModelModify):
-    user_id: Optional[int] = null
+    user_id: Optional[int] = None
     position_id: int
     team_id: int
     surname: str
@@ -51,7 +49,11 @@ class Channels(BaseModelModify):
 class Shows(BaseModelModify):
     tv_channel_id: int
     topic_id: int
-    team_staff_id: int # TODO
+    team_staff_id: int
+    equip_set_id: int
+    schedule_id: Optional[int] = None
+    venue: str
+    title: str
 
 
 class SchedulesID(BaseModelModify):

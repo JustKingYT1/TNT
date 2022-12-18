@@ -3,7 +3,7 @@ from typing import Any
 import fastapi
 
 from server.sql_base.models import SchedulesID, ScheduleOfShows
-from server.resolvers.schedules import new_schedule_id, del_schedule_id, get_all_schedules_id, get_schedule_id, upd_schedule_id, get_schedule, get_all_schedules
+from server.resolvers.schedules import new_schedule_id, del_schedule_id, get_all_schedules_id, get_schedule_id, upd_schedule_id, get_schedule, get_all_schedules, new_show_in_schedule
 
 schedules_id_router = fastapi.APIRouter(prefix='/schedules/id', tags=['SchedulesID'])
 
@@ -53,3 +53,8 @@ def get_schedule_rout(schedule_id: int) -> ScheduleOfShows | dict:
 @schedules_router.get("/get/", response_model=list[ScheduleOfShows] | dict)
 def get_schedules_all() -> list[ScheduleOfShows] | dict:
     return get_all_schedules()
+
+
+@schedules_router.post("/create/", response_model=int | dict)
+def new_show_in_schedule(show: ScheduleOfShows):
+    return new_show_in_schedule(show)

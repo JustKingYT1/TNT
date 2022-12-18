@@ -3,6 +3,12 @@ from server.sql_base.models import SchedulesID, ScheduleOfShows
 from typing import Any
 
 
+def new_show_in_schedule(show: ScheduleOfShows) -> int | dict:
+    res = base_worker.execute(query="INSERT INTO schedule_of_shows(schedule_id, show_id, time_id) VALUES (?, ?, ?) RETURNING schedule_id",
+                              args=(show.schedule_id, show.show_id, show.time_id))
+    return res
+
+
 def new_schedule_id(schedule: SchedulesID) -> int | dict:
     res = base_worker.execute(query="INSERT INTO schedule_of_shows_id(tv_channel_id, note)"
                                     "VALUES (?, ?)"
