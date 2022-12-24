@@ -17,14 +17,17 @@ def server_available(func) -> Callable[[tuple[Any, ...], dict[str, Any]], dict[s
 
     return need_it
 
-def check_login(login: str, password: str):
+
+def check_login(login: str, password: str) -> int | str | None:
     data = f'{{ "login": "{login}", "password": "{password}" }}'
-    r = requests.get(url='http://127.0.0.1:8000/users/login', data=data)
+    r = requests.get(url='http://127.0.0.1:8000/users/staff/login/', data=data)
     answer = r.json()
     code = answer["code"]
     message = answer["message"]
-
     if code != 200:
-        print(f"Server error: {message}")
-    if answer["position_id"] is not None:
+        return f"Server error: {message}"
+    if type(answer["position_id"][0]) == int:
         return answer["position_id"][0]
+    elif type(answer["position_id"]) is None:
+        return None
+

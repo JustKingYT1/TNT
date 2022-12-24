@@ -10,10 +10,10 @@ def new_staff(staff: Staff) -> None | dict:
                                    args=(staff.position_id, staff.team_id, staff.name, staff.surname, staff.date_birth,
                                          staff.deleted))
 
-    res = base_worker.execute(query="INSERT INTO staff_teams(staff_id, team_id) VALUES (?, ?)",
+    res = base_worker.execute(query="INSERT INTO staff_teams(staff_id, team_id) VALUES (?, ?) RETURNING staff_id",
                               args=(staff_id[0], staff_id[1]))
 
-    return res
+    return res[0]
 
 
 def get_staff(staff_id: int) -> Staff | dict:

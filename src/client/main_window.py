@@ -11,7 +11,6 @@ class Posts(Enum):
     DIRECTOR = 2
 
 
-
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -25,7 +24,7 @@ class MainWindow(tk.Tk):
         entry_login = tk.Entry(self, font=self.font, textvariable=self.username)
         entry_pass = tk.Entry(self, font=self.font, textvariable=self.user_password)
         btn_enter = tk.Button(self, text='Вход', font=self.font, command=self.open_menu)
-        btn_close = tk.Button(self, text='Отмена', font=self.font, command=self.destroy)
+        btn_close = tk.Button(self, text='Отмена', font=self.font, command=exit)
 
         lbl_main.grid(row=0, columnspan=2, column=1)
         lbl_login.grid(row=1, column=0, pady=10, ipadx=10)
@@ -41,7 +40,7 @@ class MainWindow(tk.Tk):
                            password=self.user_password.get())
         return post
 
-    def checking_post(self) -> Menu:
+    def checking_post(self) -> Menu | None:
         post_id = self.checking_login()
         match post_id:
             case 1: return Menu(self)
@@ -50,8 +49,7 @@ class MainWindow(tk.Tk):
             case _: return None
 
     def open_menu(self):
-        if self.checking_login():
-            self.withdraw()
+        if type(self.checking_login()) == int:
             self.checking_post()
         else:
             tk.messagebox.showerror(title="Wrong login",

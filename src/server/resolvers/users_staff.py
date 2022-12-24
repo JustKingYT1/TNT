@@ -3,21 +3,22 @@ from server.sql_base.db_tv_channels import base_worker
 
 
 def register_staff(user: User, staff_id: int) -> int | dict:
+    id_staff = base_worker.execute(query="""INSERT INTO users_staff(staff_id, login, password)
+                                           VALUES (?, ?, ?) 
+                                           RETURNING staff_id""",
+                                   args=(staff_id, user.login, user.password))[0]
     return base_worker.execute(
         query="""UPDATE staff
                   SET user_id=?
                   WHERE id=?
                   RETURNING id""",
-        args=(base_worker.execute(query="""INSERT INTO users_staff(staff_id, login, password)
-                                           VALUES (?, ?, ?) 
-                                           RETURNING id""",
-                                  args=(staff_id, user.login, user.password))[0], staff_id),
+        args=(id_staff, staff_id),
         many=False)[0]
 
 
 def check_login_staff(user: User) -> int | dict:
     return base_worker.execute(query="""SELECT S.position_id FROM staff S
-                                        INNER JOIN users_staff U ON S.user_id = U.id
+                                        INNER JOIN users_staff U ON S.user_id = U.staff_id
                                         WHERE U.login = ? AND U.password = ?""",
                                args=(user.login, user.password),
                                many=False)
