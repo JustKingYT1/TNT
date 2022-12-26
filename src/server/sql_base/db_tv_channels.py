@@ -9,7 +9,7 @@ class BaseWorker:
         self.base_path = base_path
 
     def db_connect(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
-        connection = sqlite3.connect(self.base_path, timeout=5)
+        connection = sqlite3.connect(self.base_path)
         cursor = connection.cursor()
         return connection, cursor
 

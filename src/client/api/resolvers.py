@@ -1,7 +1,6 @@
 import requests
 
 
-
 def check_login(login: str, password: str) -> int | str | None:
     data = f'{{ "login": "{login}", "password": "{password}" }}'
     r = requests.get(url='http://127.0.0.1:8000/users/staff/login/', data=data)
