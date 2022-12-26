@@ -30,19 +30,20 @@ def create_channel(channel: Channels) -> int | dict:
         return {"code": 400, "message": "Error", "channel_id": None}
 
 
-@channel_router.put("/update/{channel_id}/", response_model=None | dict)
-def update_channel(channel_id: int, new_data: Channels) -> None | dict:
+@channel_router.put("/update/{channel_id}/", response_model=None | dict | int)
+def update_channel(channel_id: int, new_data: Channels) -> None | dict | int:
     res = upd_channel(channel_id, new_data)
-    if res is None:
+    print(res)
+    if type(res) == int:
         return {"code": 200, "message": "Successfully"}
     else:
         return {"code": 400, "message": "Error", "res": res}
 
 
-@channel_router.delete("/delete/{channel_id}/", response_model=None | dict)
-def delete_channel(channel_id) -> None | dict:
+@channel_router.delete("/delete/{channel_id}/", response_model=None | dict | int)
+def delete_channel(channel_id) -> None | dict | int:
     res = del_channel(channel_id)
-    if res is None:
+    if type(res) == int:
         return {"code": 200, "message": "Successfully"}
     else:
         return {"code": 400, "message": "Error", "res": res}

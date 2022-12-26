@@ -55,8 +55,3 @@ class MainWindow(tk.Tk):
         else:
             tk.messagebox.showerror(title="Wrong login",
                                     message="Логин или пароль не верны")
-
-
-if __name__ == '__main__':
-    main_form = MainWindow()
-    main_form.mainloop()

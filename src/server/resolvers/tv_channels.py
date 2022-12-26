@@ -16,7 +16,7 @@ def new_channel(channel: Channels) -> int | dict:
 def get_channel(channel_id: int) -> Channels | dict:
     res = base_worker.execute(
         query="SELECT id, title, abbreviated_title FROM tv_channels WHERE id=?",
-        args=(channel_id,),)
+        args=(channel_id,), )
     return None if not res else Channels(
         id=res[0],
         title=res[1],
@@ -39,13 +39,23 @@ def get_all_channels() -> list[Channels] | dict:
     return res
 
 
-def upd_channel(channel_id: int, new_data: Channels) -> None | dict:
-    return base_worker.execute(query='UPDATE tv_channels '
-                                     'SET (title, abbreviated_title) = (?, ?) '
-                                     'WHERE id=(?)',
-                               args=(new_data.title, new_data.abbreviated_title, channel_id))
+def upd_channel(channel_id: int, new_data: Channels) -> int | dict | None:
+    res = base_worker.execute(query='UPDATE tv_channels '
+                                    'SET (title, abbreviated_title) = (?, ?) '
+                                    'WHERE id=(?)'
+                                    'RETURNING id',
+                              args=(new_data.title, new_data.abbreviated_title, channel_id))
+    if type(res) == tuple:
+        return res[0]
+
+    return res
 
 
-def del_channel(channel_id: int) -> None | dict:
-    return base_worker.execute(query="DELETE FROM tv_channels WHERE id=(?)",
-                               args=(channel_id,))
+def del_channel(channel_id: int) -> None | dict | int:
+    res = base_worker.execute(query="DELETE FROM tv_channels WHERE id=(?) RETURNING id",
+                              args=(channel_id,))
+
+    if type(res) == tuple:
+        return res[0]
+
+    return res

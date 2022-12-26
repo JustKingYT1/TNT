@@ -31,9 +31,18 @@ class BaseWorker:
                 res = res_ctx.fetchall()
             else:
                 res = res_ctx.fetchone()
-        except:
+        except sqlite3.IntegrityError as ex:
             connect.close()
-            return {'error': "error"}
+            return {'error': ex}
+        except sqlite3.InternalError as ex:
+            connect.close()
+            return {'error': ex}
+        except sqlite3.OperationalError as ex:
+            connect.close()
+            return {'error': ex}
+        except sqlite3.ProgrammingError as ex:
+            connect.close()
+            return {'error': ex}
         connect.commit()
         connect.close()
         return res
