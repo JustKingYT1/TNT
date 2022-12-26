@@ -3,17 +3,17 @@ import tkinter.messagebox
 from enum import Enum
 
 from api.resolvers import check_login
-from staff.menu import Menu
+from director.director_menu import Menu
 
 
 class Posts(Enum):
-    ADMIN = 1
-    DIRECTOR = 2
+    DIRECTOR = 1
 
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.title("Login")
         self.username = tk.StringVar()
         self.user_password = tk.StringVar()
         self.font = ('Times New Roman', 16)
@@ -50,6 +50,7 @@ class MainWindow(tk.Tk):
 
     def open_menu(self):
         if type(self.checking_login()) == int:
+            self.withdraw()
             self.checking_post()
         else:
             tk.messagebox.showerror(title="Wrong login",

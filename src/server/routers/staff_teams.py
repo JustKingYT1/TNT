@@ -3,7 +3,7 @@ from server.sql_base.models import StaffTeams
 from server.resolvers.staff_teams import new_staff_team, upd_staff_team, del_staff_team, get_all_staff_teams, get_staff_team
 from typing import Any
 
-staff_teams_router = fastapi.APIRouter(prefix='/staff/teams', tags=['StaffTeams'])
+staff_teams_router = fastapi.APIRouter(prefix='/director/teams', tags=['StaffTeams'])
 
 
 @staff_teams_router.get("/")

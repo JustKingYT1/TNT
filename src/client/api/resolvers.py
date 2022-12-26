@@ -1,21 +1,5 @@
-from typing import Callable, Tuple, Any, Dict
-
 import requests
-from server.sql_base import models
-import settings
 
-server_url = f'https://{settings.SERVER_HOST}:{settings.SERVER_PORT}'
-
-
-def server_available(func) -> Callable[[tuple[Any, ...], dict[str, Any]], dict[str, str] | Any]:
-    def need_it(*args, **kwargs):
-        try:
-            requests.get(url=server_url)
-            return func(*args, **kwargs)
-        except requests.exceptions.ConnectionError:
-            return {"error": 'Server not available'}
-
-    return need_it
 
 
 def check_login(login: str, password: str) -> int | str | None:
@@ -31,3 +15,46 @@ def check_login(login: str, password: str) -> int | str | None:
     elif type(answer["position_id"]) is None:
         return None
 
+
+def data_for_table_tv_channels() -> list[tuple]:
+    data = []
+    row = []
+    answer = requests.get(url="http://127.0.0.1:8000/channels/get/").json()
+    for dict in answer:
+        for key, value in dict.items():
+            if key == "id":
+                continue
+            row.append(value)
+        data.append(tuple(row))
+        row.clear()
+
+    return data
+
+
+def new_channel(title: str, abbreviated_title: str) -> dict:
+    data = f'{{ "title": "{title}", "abbreviated_title": "{abbreviated_title}" }}'
+    answer = requests.post("http://127.0.0.1:8000/channels/create/", data=data).json()
+    code = answer["code"]
+    msg = answer["message"]
+    if code != 200:
+        return {"Error": msg, "code": code}
+    return {"message": msg, "code": code, "channel_id": answer["channel_id"]}
+
+
+def upd_channel(id: int, title: str, abbreviated_title: str) -> dict:
+    data = f'{{ "title": "{title}", "abbreviated_title": "{abbreviated_title}" }}'
+    answer = requests.put(f"http://127.0.0.1:8000/channels/update/{id}/", data=data).json()
+    code = answer["code"]
+    msg = answer["message"]
+    if code != 200:
+        return {"Error": msg, "code": code}
+    return {"message": msg, "code": code}
+
+
+def del_channel(id: int) -> dict:
+    answer = requests.delete(f"http://127.0.0.1:8000/channels/delete/{id}/").json()
+    code = answer["code"]
+    msg = answer["message"]
+    if code != 200:
+        return {"Error": msg, "code": code}
+    return {"message": msg, "code": code}
